@@ -12,7 +12,7 @@ Daniel needs a project that demonstrates exactly that, can be understood from th
 
 Isobar is a quiet, editorial weather dashboard. The user saves a handful of locations, picks one, and sees current conditions, a 48-hour chart that can be switched between temperature, rain and wind, an hourly detail table and a seven-day outlook. Units and theme are the only settings. Everything else is deliberately absent.
 
-The product ships as a pnpm monorepo: a small design system in Storybook (the hosted, clickable surface), a Vite and React dashboard, and a Hono API over SQLite that fronts Open-Meteo with a short-lived cache. The dashboard and API run locally; Storybook deploys to GitHub Pages from CI. A live deployment of the dashboard is deferred to the end and may never be needed.
+The product ships as a single npm package: a small design system in Storybook (the hosted, clickable surface), a Vite and React dashboard, and a Hono API over SQLite that fronts Open-Meteo with a short-lived cache. The dashboard and API run locally; Storybook deploys to GitHub Pages from CI. A live deployment of the dashboard is deferred to the end and may never be needed.
 
 ## User Stories
 
@@ -113,7 +113,7 @@ The product ships as a pnpm monorepo: a small design system in Storybook (the ho
 
 ### Repository and tooling
 
-- One repository, `isobar`, a pnpm-workspaces monorepo with three packages: the design system, the dashboard and the API. No Turborepo until a fourth package demands it.
+- One repository, `isobar`, one npm package, no workspaces. The dashboard, the design system folder inside it, and the server folder share one `package.json`. npm ships with Node, so a clean clone needs nothing installed beyond Node 24. A monorepo was considered and rejected as structure for its own sake with a single consumer.
 - Biome for lint and format. Vitest and Testing Library for unit and component tests. Storybook with the a11y addon and interaction tests. One Playwright smoke test. GitHub Actions runs lint, typecheck, test and build on every push and pull request, and deploys Storybook to GitHub Pages on merge to main.
 - Strict TypeScript everywhere.
 - Work proceeds one slice at a time from the tickets derived from this PRD. A slice is done when lint, typecheck, tests and build pass, and leaves no TODOs, dead code or commented-out blocks.
@@ -186,7 +186,7 @@ There is no prior art in the repository; these tests establish the patterns.
 - Serving stale data when the provider fails.
 - Sparklines on KPI tiles.
 - Any second accent hue, display typeface or entrance animation.
-- A date library, a global store, Turborepo.
+- A date library, a global store, workspaces or a monorepo.
 - Historical or climatological data beyond the yesterday reference line.
 
 ## Further Notes

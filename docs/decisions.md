@@ -2,7 +2,7 @@
 
 **Isobar** is a portfolio project: a polished React weather dashboard aimed at front-end hiring managers. Last updated 2026-10-30. Wireframes live in the "Weather Dashboard Wireframes" design canvas; **Option C** is the desktop direction.
 
-Naming: directory and repo `isobar`; workspace packages `@isobar/ui`, `@isobar/dashboard`, `@isobar/api`; the design system is "Isobar UI" in Storybook. Domain: try `isobar.dev`, then `isobar.app`, then `getisobar.dev`.
+Naming: directory and repo `isobar`; the design system is "Isobar UI" in Storybook. Domain: try `isobar.dev`, then `isobar.app`, then `getisobar.dev`.
 
 ---
 
@@ -28,7 +28,7 @@ Naming: directory and repo `isobar`; workspace packages `@isobar/ui`, `@isobar/d
 - Dates and times via `Intl.DateTimeFormat` with the location's IANA timezone from Open-Meteo. No date library unless formatting needs outgrow `Intl`.
 
 **Back end**
-- Hono on Node, in `apps/api`. Routes: `GET /geocode?q=`, `GET /locations/:id/forecast`, `GET /locations/:id/air-quality`, and `GET/POST/PATCH/DELETE /locations` for saved locations and their order.
+- Hono on Node, in `server/`. Every route is under `/api` so the dashboard calls it same-origin: Vite proxies `/api` in development, and a single server can serve `dist` alongside the API if the app is ever deployed. Routes: `GET /api/geocode?q=`, `GET /api/locations/:id/forecast`, `GET /api/locations/:id/air-quality`, and `GET/POST/PATCH/DELETE /api/locations` for saved locations and their order.
 - SQLite via Drizzle. Tables: `locations` (id, name, country, lat, lon, timezone, sort_order) and `forecast_cache` (location_id, kind, payload, fetched_at).
 - Data source: Open-Meteo forecast, air-quality and geocoding endpoints.
 - Everything stored and fetched in Celsius; °F is a client-side display conversion.
@@ -39,11 +39,12 @@ Naming: directory and repo `isobar`; workspace packages `@isobar/ui`, `@isobar/d
 - No SSE / WebSockets (considered, rejected as overkill for hourly-changing data).
 
 **Repo and tooling**
-- **One repo per app**, named after the app. Inside it, a pnpm-workspaces monorepo: `packages/ui`, `apps/dashboard`, `apps/api`. No Turborepo until a fourth package demands it.
-- The UI package is extracted from the dashboard's needs, not built ahead of it. If a second app ever needs it, lift `packages/ui` into its own repo then — not before.
+- **One repo, one package, npm.** No workspaces, no pnpm, no Turborepo. The dashboard lives in `src/`, the design system in `src/ui/`, the API in `server/`. A clean clone is `npm install` then `npm run dev`, with nothing else to install; npm ships with Node. A monorepo was considered and rejected: three packages for one consumer is structure for its own sake.
+- The design system is extracted from the dashboard's needs, not built ahead of it. If a second consumer ever appears, lift `src/ui` into its own package then — not before.
+- Node 24 or later. The server runs its TypeScript directly under Node; no build step or runner in development.
 - Biome for lint + format.
 - Vitest + Testing Library for components; one Playwright smoke test (load, add a location, switch chart mode).
-- Storybook for `packages/ui` with the a11y addon (axe) and interaction tests; target WCAG 2.2 AA; axe checks in CI.
+- Storybook for `src/ui` with the a11y addon (axe) and interaction tests; target WCAG 2.2 AA; axe checks in CI.
 - GitHub Actions: lint, type-check, test, build on every push/PR; deploy Storybook on merge to `main`.
 - **Repo is public from day one.** Commit history is part of the showcase; keep commits small and well-described.
 - Dark mode from day one.
@@ -51,7 +52,7 @@ Naming: directory and repo `isobar`; workspace packages `@isobar/ui`, `@isobar/d
 
 **Hosting**
 - **Storybook deploys to GitHub Pages from CI.** That is the only hosted surface; it is static, free and shows the part a front-end reviewer cares about most.
-- **The dashboard and API run locally.** The README is the front door: screenshots in both themes, the Storybook link, and a two-line run block. A clean clone must run first time. The SQLite file lives in a gitignored data directory and migrations run on `pnpm dev`.
+- **The dashboard and API run locally.** The README is the front door: screenshots in both themes, the Storybook link, and a two-line run block. A clean clone must run first time. The SQLite file lives in a gitignored data directory and migrations run on `npm run dev`.
 - **Single user.** Because the app is not shared, `locations` has no owner and there is no auth, cookie or per-visitor scoping.
 - **A live dashboard is deferred, not rejected.** Nothing in the database needs to survive a redeploy (the cache refills itself and a demo location list may reset), so if a live link matters later the options are Railway Hobby (about $5/month, persistent volume, no stack change) or a free host with ephemeral SQLite and boot-time seeding. Decide at the end, once the local build is finished.
 

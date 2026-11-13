@@ -1,0 +1,96 @@
+/*
+ * Isobar UI tokens. The single source for every colour, font, size, radius and shadow.
+ *
+ * Tailwind's defaults for those namespaces are cleared, so a utility that is not backed
+ * by a token here (`bg-red-500`, `font-bold`, `rounded-lg`) does not exist.
+ *
+ * Light values live in @theme. Every colour and shadow has a dark value in the
+ * [data-theme="dark"] block below; the two blocks must list the same names.
+ */
+
+@theme static {
+  --color-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+
+  /* Neutrals: warm stone. */
+  --color-ground: oklch(0.982 0.003 75);
+  --color-surface: oklch(0.995 0.002 75);
+  --color-sunken: oklch(0.962 0.004 75);
+  --color-border: oklch(0.905 0.005 75);
+  --color-border-strong: oklch(0.83 0.007 75);
+  --color-text: oklch(0.235 0.006 60);
+  --color-text-muted: oklch(0.49 0.01 60);
+
+  /* Accent: one cool blue. Tint is rain; subtle is selected backgrounds. */
+  --color-accent: oklch(0.52 0.135 252);
+  --color-on-accent: oklch(0.99 0.002 252);
+  --color-accent-tint: oklch(0.74 0.08 245);
+  --color-accent-subtle: oklch(0.94 0.024 245);
+
+  /* Semantic: errors only. Air-quality bands arrive with the air-quality tile. */
+  --color-error: oklch(0.51 0.17 27);
+  --color-error-subtle: oklch(0.95 0.025 27);
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.25rem;
+  --text-title: 1rem;
+  --text-title--line-height: 1.5rem;
+  --text-heading: 1.5rem;
+  --text-heading--line-height: 2rem;
+  --text-kpi: 1.75rem;
+  --text-kpi--line-height: 2.25rem;
+
+  --tracking-label: 0.06em;
+
+  --spacing-control: 2rem;
+  --spacing-card: 1rem;
+  --spacing-sidebar: 18rem;
+
+  --radius-control: 6px;
+  --radius-card: 8px;
+  --radius-full: 9999px;
+
+  --shadow-popover: 0 1px 2px oklch(0.235 0.006 60 / 0.06), 0 6px 20px oklch(0.235 0.006 60 / 0.1);
+
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: ease;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-ground: oklch(0.172 0.005 60);
+  --color-surface: oklch(0.205 0.005 60);
+  --color-sunken: oklch(0.152 0.004 60);
+  --color-border: oklch(0.285 0.006 60);
+  --color-border-strong: oklch(0.38 0.008 60);
+  --color-text: oklch(0.94 0.004 75);
+  --color-text-muted: oklch(0.72 0.008 70);
+
+  --color-accent: oklch(0.72 0.115 245);
+  --color-on-accent: oklch(0.18 0.02 250);
+  --color-accent-tint: oklch(0.56 0.085 245);
+  --color-accent-subtle: oklch(0.285 0.045 250);
+
+  --color-error: oklch(0.72 0.15 25);
+  --color-error-subtle: oklch(0.275 0.06 25);
+
+  --shadow-popover: 0 1px 2px oklch(0 0 0 / 0.3), 0 6px 20px oklch(0 0 0 / 0.45);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}

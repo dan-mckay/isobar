@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Isobar</title>
+    <script>
+      // Applies the saved or system theme before first paint, so a dark-theme reload
+      // never flashes light. SettingsProvider owns the theme from then on.
+      let theme;
+      try {
+        theme = JSON.parse(localStorage.getItem("isobar.settings") ?? "{}")?.theme;
+      } catch {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    </script>
   </head>
   <body>
     <div id="root"></div>

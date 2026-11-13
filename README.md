@@ -2,6 +2,8 @@
 
 A quiet, editorial weather dashboard. React, Hono, SQLite, one small design system.
 
+**Design system:** [Isobar UI in Storybook](https://dan-mckay.github.io/isobar/), in both themes.
+
 ## Run it
 
 Requires Node 24 or later. Nothing else to install.

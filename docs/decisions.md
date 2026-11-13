@@ -1,6 +1,6 @@
 # Isobar — Decisions
 
-**Isobar** is a portfolio project: a polished React weather dashboard aimed at front-end hiring managers. Last updated 2026-10-30. Wireframes live in the "Weather Dashboard Wireframes" design canvas; **Option C** is the desktop direction.
+**Isobar** is a portfolio project: a modern React weather dashboard aimed at hiring managers. Last updated 2026-11-13. Wireframes live in the "Weather Dashboard Wireframes" design canvas; **Option C** is the desktop direction.
 
 Naming: directory and repo `isobar`; the design system is "Isobar UI" in Storybook. Domain: try `isobar.dev`, then `isobar.app`, then `getisobar.dev`.
 
@@ -91,3 +91,27 @@ Cards: `DashboardCard`, `StatTile`.
 Charts: `ForecastChart` (modes: temp / rain / wind), `ConditionsDonut`, `RangeBar`, `WindCompass` (optional).
 Tables: `HourlyTable`, `DayOutlookStrip`, `DayOutlookCard`.
 States: `CardSkeleton`, `EmptyLocations`, `ErrorBanner`.
+
+## 6. Java back end (second implementation)
+
+**Why:** the Department of Education and Youth senior React role (JSP-to-React modernisation, contract start 3 February 2027) lists Java 8+, Spring Boot 2.6, MVC frameworks and microservices knowledge alongside the front-end skills. The goal is to show an interviewer that Daniel knows his way around a Java app. Front-end alignment with that spec is not a goal; that experience is already on the CV.
+
+**Decided**
+- Lives in the repo as `server-java/`, **beside** the Hono API in `server/`, implementing the same `/api` HTTP contract. The Vite `/api` proxy points at either through an environment variable. Hono stays the default and keeps its typed client.
+- Can start once the Hono API's routes exist; it does not block the dashboard work.
+- **Current Spring Boot**, not 2.6 (2.6 is long out of open-source support). Be ready to explain the main differences from 2.6: the `javax` → `jakarta` package rename and the Java 17 minimum.
+- Conventional layering: controllers, services, repositories, configuration, tests.
+- Built **one layer at a time**. Daniel has college Java and no Spring experience, so he reads and runs each layer before the next is written. Being able to explain every file matters more than finishing quickly.
+- Own build and own CI job; it sits outside the npm package, so a clean clone still runs with `npm install` and `npm run dev` and no JDK.
+
+**Prerequisites on Daniel's machine**
+- JDK 21, installed directly (SDKMAN on Mac or Linux, the Temurin installer on Windows). No Docker.
+- **VS Code extensions for Java development — to be added:** "Extension Pack for Java" (Microsoft) and "Spring Boot Extension Pack".
+- Maven or Gradle arrives with the project as a wrapper; nothing to install.
+
+**Settle before starting**
+- Maven or Gradle.
+- Database: share the SQLite schema, or use a more conventional Java choice (H2 or Postgres).
+- Whether the Java service is deployed, or runs locally only.
+
+**Rejected:** replacing Hono with Java (loses the typed client and puts Isobar behind the Spring learning curve); Spring Boot 2.6 (unsupported); a Docker dev container for Java (one more unfamiliar tool).

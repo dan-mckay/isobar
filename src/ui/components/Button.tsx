@@ -1,8 +1,10 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cn } from "../cn.ts";
 
+// Each variant sets its own border colour: `cn` doesn't merge, so a colour in the shared
+// classes would compete with the variant's and win or lose on stylesheet order.
 const variants = {
-  primary: "bg-accent text-on-accent hover:bg-accent-hover",
+  primary: "border-transparent bg-accent text-on-accent hover:bg-accent-hover",
   outline: "border-border-strong bg-surface text-text hover:bg-sunken",
 } as const;
 
@@ -14,7 +16,7 @@ export type ButtonVariant = keyof typeof variants;
  */
 export function buttonStyles(variant: ButtonVariant = "primary", className?: string): string {
   return cn(
-    "inline-flex h-control shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-control border border-transparent px-3 font-semibold text-body whitespace-nowrap no-underline transition-colors select-none data-disabled:cursor-not-allowed data-disabled:opacity-50",
+    "inline-flex h-control shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-control border px-3 font-semibold text-body whitespace-nowrap no-underline transition-colors select-none data-disabled:cursor-not-allowed data-disabled:opacity-50",
     variants[variant],
     className,
   );

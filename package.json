@@ -16,6 +16,7 @@
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc -b",
+    "db:generate": "drizzle-kit generate",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

@@ -23,7 +23,7 @@ One package, no workspaces. npm scripts from the root: `npm run dev`, `npm test`
 
 ## Design rules
 
-- **Tokens only.** Every colour, font, size, radius and shadow comes from `src/ui/tokens.css`. No hard-coded values in components, no arbitrary Tailwind values like `text-[13px]` or `bg-[#…]`. If a token is missing, add it to `tokens.css` with a light and dark value, then use it.
+- **Tokens only.** Every colour, font, size, radius and shadow comes from `src/ui/tokens.css`. No hard-coded values in components, no arbitrary Tailwind values like `text-[13px]` or `bg-[#…]`. If a token is missing, add it to `tokens.css`, then use it; colours and shadows also need a dark value. Spacing and layout dimensions use Tailwind's default scale; add a semantic token only for dimensions `docs/decisions.md` names or that must stay consistent across components.
 - **shadcn components are ours to edit.** They live in `src/ui/components`. Restyle them to the tokens; delete variants we don't use. They should not read as stock shadcn.
 - **Base UI primitives, not Radix.** `render` prop, not `asChild`.
 - **Charts through the shadcn chart wrapper** so Recharts inherits the tokens. Hand-rolled SVG only for `RangeBar` and `WindCompass`.

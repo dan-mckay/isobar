@@ -27,6 +27,20 @@ describe("SavedLocationList", () => {
     expect(screen.queryByText(emptyMessage)).toBeNull();
   });
 
+  it("tells namesakes apart by region", () => {
+    render(
+      <SavedLocationList emptyMessage={emptyMessage}>
+        <SavedLocationItem name="Dublin" region="Ohio" country="United States" href="/1" />
+        <SavedLocationItem name="Dublin" region="Georgia" country="United States" href="/2" />
+      </SavedLocationList>,
+    );
+
+    expect(screen.getAllByRole("link").map((link) => link.textContent)).toEqual([
+      "DublinOhio, United States",
+      "DublinGeorgia, United States",
+    ]);
+  });
+
   it("marks only the active location as the current page", () => {
     render(
       <SavedLocationList emptyMessage={emptyMessage}>

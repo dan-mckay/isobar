@@ -6,6 +6,7 @@ import type { Location, LocationStore } from "./store.ts";
 const columns = {
   id: locations.id,
   name: locations.name,
+  region: locations.region,
   country: locations.country,
   latitude: locations.latitude,
   longitude: locations.longitude,

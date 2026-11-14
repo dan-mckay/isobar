@@ -29,5 +29,5 @@ export function LocationPage({ locationId }: { locationId: string }) {
     );
   }
 
-  return <PageHeader name={location.name} country={location.country} />;
+  return <PageHeader name={location.name} region={location.region} country={location.country} />;
 }

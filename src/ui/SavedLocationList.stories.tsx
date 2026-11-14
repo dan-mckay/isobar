@@ -23,9 +23,22 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: [
-      <SavedLocationItem key="1" name="Dublin" country="Ireland" href="#dublin" active />,
+      <SavedLocationItem
+        key="1"
+        name="Dublin"
+        region="Leinster"
+        country="Ireland"
+        href="#dublin"
+        active
+      />,
       <SavedLocationItem key="2" name="Wellington" country="New Zealand" href="#wellington" />,
-      <SavedLocationItem key="3" name="Kathmandu" country="Nepal" href="#kathmandu" />,
+      <SavedLocationItem
+        key="3"
+        name="Dublin"
+        region="Ohio"
+        country="United States"
+        href="#dublin-ohio"
+      />,
     ],
   },
 };

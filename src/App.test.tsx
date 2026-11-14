@@ -14,6 +14,7 @@ import { SettingsProvider } from "./settings/SettingsContext.tsx";
 const wellington = {
   id: 2179537,
   name: "Wellington",
+  region: "Wellington",
   country: "New Zealand",
   latitude: -41.28664,
   longitude: 174.77557,
@@ -101,7 +102,7 @@ describe("adding a location", () => {
     await userEvent.click(await screen.findByRole("option", { name: /Dublin/ }));
 
     expect(await screen.findByRole("heading", { level: 1, name: "Dublin" })).toBeTruthy();
-    expect(within(screen.getByRole("main")).getByText("Ireland")).toBeTruthy();
+    expect(within(screen.getByRole("main")).getByText("Leinster, Ireland")).toBeTruthy();
     expect(history.location.pathname).toBe(`/location/${dublinPlace.id}`);
     const nav = within(sidebar()).getByRole("navigation", {
       name: "Saved locations",

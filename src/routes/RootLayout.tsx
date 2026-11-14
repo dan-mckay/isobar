@@ -32,6 +32,7 @@ export function RootLayout() {
               <SavedLocationItem
                 key={location.id}
                 name={location.name}
+                region={location.region}
                 country={location.country}
                 active={String(location.id) === locationId}
                 render={

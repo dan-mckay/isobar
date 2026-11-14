@@ -1,5 +1,6 @@
 import { Combobox } from "@base-ui/react/combobox";
 import { type Ref, useId } from "react";
+import { placeLabel } from "./placeLabel.ts";
 
 /** The least the search needs to show a place. Callers can pass richer objects and get them back. */
 export interface LocationSearchResult {
@@ -28,10 +29,6 @@ function statusMessage(status: LocationSearchStatus, query: string, resultCount:
   if (status === "error") return "Search is unavailable right now. Try again in a moment.";
   if (resultCount === 0) return `No places match “${query.trim()}”.`;
   return null;
-}
-
-function place(result: LocationSearchResult): string {
-  return result.region ? `${result.region}, ${result.country}` : result.country;
 }
 
 /**
@@ -97,7 +94,9 @@ export function LocationSearch<T extends LocationSearchResult>({
                   className="flex cursor-pointer flex-col px-2.5 py-1.5 wrap-break-word data-highlighted:bg-sunken"
                 >
                   <span className="text-body font-semibold">{result.name}</span>
-                  <span className="text-label text-text-muted">{place(result)}</span>
+                  <span className="text-label text-text-muted">
+                    {placeLabel(result.region, result.country)}
+                  </span>
                 </Combobox.Item>
               )}
             </Combobox.List>

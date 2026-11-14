@@ -1,15 +1,11 @@
 import type { z } from "zod";
 import { placeSchema } from "../provider/provider.ts";
 
-/** A saved location. Its id is the place's geocoder id, which is what makes saving idempotent. */
-export const locationSchema = placeSchema.pick({
-  id: true,
-  name: true,
-  country: true,
-  latitude: true,
-  longitude: true,
-  timezone: true,
-});
+/**
+ * A saved location: the place as found, region included so namesakes stay distinguishable.
+ * Its id is the place's geocoder id, which is what makes saving idempotent.
+ */
+export const locationSchema = placeSchema;
 
 export type Location = z.infer<typeof locationSchema>;
 

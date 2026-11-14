@@ -2,6 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Children, type ReactNode } from "react";
 import { cn } from "./cn.ts";
+import { placeLabel } from "./placeLabel.ts";
 
 export interface SavedLocationListProps {
   /** `SavedLocationItem`s, in the user's order. */
@@ -25,6 +26,8 @@ export function SavedLocationList({ children, emptyMessage }: SavedLocationListP
 
 export interface SavedLocationItemProps extends useRender.ComponentProps<"a"> {
   name: string;
+  /** State, province or similar; omit or pass null when there is none. */
+  region?: string | null;
   country: string;
   /** The location on screen. Highlighted and announced as the current page. */
   active?: boolean;
@@ -35,6 +38,7 @@ export interface SavedLocationItemProps extends useRender.ComponentProps<"a"> {
  */
 export function SavedLocationItem({
   name,
+  region,
   country,
   active = false,
   render,
@@ -53,7 +57,9 @@ export function SavedLocationItem({
         children: (
           <>
             <span className="truncate text-body font-semibold text-text">{name}</span>
-            <span className="truncate text-label text-text-muted">{country}</span>
+            <span className="truncate text-label text-text-muted">
+              {placeLabel(region, country)}
+            </span>
           </>
         ),
       },

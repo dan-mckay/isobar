@@ -7,7 +7,7 @@ import { openDatabase } from "./db/database.ts";
 import { dublinPlace } from "./fixtures/places.ts";
 import { createMemoryLocationStore } from "./locations/memoryStore.ts";
 import { createSqliteLocationStore } from "./locations/sqliteStore.ts";
-import type { LocationStore } from "./locations/store.ts";
+import type { Location, LocationStore } from "./locations/store.ts";
 import { createOfflineProvider } from "./provider/offline.ts";
 import { ProviderError } from "./provider/provider.ts";
 
@@ -68,10 +68,11 @@ async function listed(app: App) {
   return (await app.request("/api/locations")).json();
 }
 
-const { region: _region, ...dublin } = dublinPlace;
+const dublin = dublinPlace;
 const wellington = {
   id: 2179537,
   name: "Wellington",
+  region: "Wellington",
   country: "New Zealand",
   latitude: -41.28664,
   longitude: 174.77557,
@@ -119,6 +120,23 @@ describe.each(stores)("/api/locations, %s", (_name, createStore) => {
     expect(again.status).toBe(200);
     expect(await again.json()).toEqual({ location: dublin });
     expect(await listed(app)).toEqual({ locations: [dublin, wellington] });
+  });
+
+  it("keeps a place's region, or its absence, so namesakes stay distinguishable", async () => {
+    const app = await appWithStore();
+    const monaco = {
+      ...wellington,
+      id: 2993458,
+      name: "Monaco",
+      region: null,
+      country: "Monaco",
+    };
+
+    await post(app, dublinPlace);
+    await post(app, monaco);
+
+    const { locations } = (await listed(app)) as { locations: Location[] };
+    expect(locations.map((location) => location.region)).toEqual(["Leinster", null]);
   });
 
   it.each([

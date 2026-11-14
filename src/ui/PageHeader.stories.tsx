@@ -4,7 +4,7 @@ import { PageHeader } from "./PageHeader.tsx";
 const meta = {
   title: "Layout/PageHeader",
   component: PageHeader,
-  args: { name: "Dublin", country: "Ireland" },
+  args: { name: "Dublin", region: "Leinster", country: "Ireland" },
   decorators: [
     (Story) => (
       <div className="w-96">
@@ -23,6 +23,12 @@ export const Default: Story = {};
 export const LongText: Story = {
   args: {
     name: "Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch",
+    region: "Wales",
     country: "United Kingdom of Great Britain and Northern Ireland",
   },
+};
+
+/** Some places have no region; the country stands alone. */
+export const NoRegion: Story = {
+  args: { name: "Monaco", region: null, country: "Monaco" },
 };

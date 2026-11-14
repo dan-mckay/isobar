@@ -29,7 +29,8 @@ Naming: directory and repo `isobar`; the design system is "Isobar UI" in Storybo
 
 **Back end**
 - Hono on Node, in `server/`. Every route is under `/api` so the dashboard calls it same-origin: Vite proxies `/api` in development, and a single server can serve `dist` alongside the API if the app is ever deployed. Routes: `GET /api/geocode?q=`, `GET /api/locations/:id/forecast`, `GET /api/locations/:id/air-quality`, and `GET/POST/PATCH/DELETE /api/locations` for saved locations and their order.
-- SQLite via Drizzle. Tables: `locations` (id, name, country, lat, lon, timezone, sort_order) and `forecast_cache` (location_id, kind, payload, fetched_at).
+- SQLite via Drizzle. Tables: `locations` (id, name, region, country, latitude, longitude, timezone, sort_order) and `forecast_cache` (location_id, kind, payload, fetched_at).
+- A location's `id` is the geocoder's id for the place, so saving the same place twice returns the existing location rather than a duplicate. `region` (state, province or similar, nullable) is stored so places that share a name stay distinguishable once saved, for example the several US Dublins.
 - Data source: Open-Meteo forecast, air-quality and geocoding endpoints.
 - Everything stored and fetched in Celsius; °F is a client-side display conversion.
 - Two snapshot kinds per location: `forecast` (current, hourly and daily from one provider call) with a 10 min TTL, and `air-quality` with a 60 min TTL. The header's "updated X min ago" is the forecast snapshot's `fetchedAt`. A `?refresh=1` flag bypasses the TTL but is itself rate-limited to one provider call per location per 60 s; within that window the cached snapshot is returned with its real `fetchedAt`.
